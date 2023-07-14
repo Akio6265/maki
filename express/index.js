@@ -180,5 +180,5 @@ app.get('*', function (req, res) {
     res.status(404).sendFile(path.join(__dirname, '404.html'));
 });
 app.listen(port, () => {
-    console.log(`here: http://maki:${port}`)
+    console.log(`here: http://localhost:${port}`)
 });
