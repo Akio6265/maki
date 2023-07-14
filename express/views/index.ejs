@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@100&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@200&family=Tilt+Prism&display=swap" rel="stylesheet">
+  <link rel="icon" id="mainIcon" type="image/x-icon" href="">
+  <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="crossorigin="anonymous"></script>
+
+  <title>
+  </title>
+  <link rel="stylesheet" href="/css/main.css" type="text/css">
+  <link rel="stylesheet" href="/css/channel.css" type="text/css">
+</head>
+<body>
+  
+  <nav>
+    <button id="magic" type="submit">
+      vingardium leviosa
+    </button>
+  </nav>
+<main>
+  <div class="top">
+    <img src="" alt="">
+    <h1 id="name">
+      
+    </h1>
+  </div>
+  
+  
+  <% if(guild){ %>
+<div class="main">
+<div class="info">
+  <h2>
+    SERVER INFO 
+  </h2>
+  <ul>
+    <li>Members: <span> <%= guild.members %></span></li>
+    <li>Bots: <span> <%= guild.bots %> </span></li>
+    <li>categories: <span><%= guild.categories  %></span></li>
+    <li>Text Channels: <span><%= guild.tc %></span></li>
+    <li>Voice Channels: <span><%= guild.vc %></span></li>
+    <li>Roles: <span> <%= guild.roles %></span></li>
+  </ul>
+</div>
+
+</div>
+
+<form id="nicknameForm">
+  <label for="nickname">Bot's nickname</label>
+  <div>
+    <input type="text" id="nickname" name="nickname">
+    <button id="btn">
+      <p id="btnText">Change</p>
+      <div class="check-box">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+          <path fill="transparent" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+        </svg>
+      </div>
+    </button>
+  </div>
+</form>
+<% } %>
+<% if (channel){ %>
+<div id="channels">
+    <div class="sec-center">
+      <input class="dropdown" type="checkbox" id="dropdown" name="dropdown" />
+      <label class="for-dropdown" for="dropdown">channels</label>
+      <div class="section-dropdown">
+      </div>
+    </div>
+  </div>
+  <div id="bottom">
+    <div id="msg">
+      <input type="text" name="msg" id="msgInput">
+      <button type="submit" id="msgSend">send</button>
+    </div>
+  </div>
+
+<% } %>
+</main>
+<div>
+
+</div>
+ 
+
+
+<script>
+  $(document).ready(function () {
+  
+    //animation shit
+    for (let i = 0; i < 20; i++) {
+      // Generate random index between -2 and -4
+      const randomIndex = Math.random() * (-4 - (-2)) + (-2);
+
+      // Generate random positions
+      const randomTop = Math.floor(Math.random() * 80) + 10; // Random top value between 10 and 90
+      const randomLeft = Math.floor(Math.random() * 80) + 10; // Random left value between 10 and 90
+
+      // Create a new div element
+      const newDiv = $('<div class="effect"></div>');
+      
+      // Assign the random index and positions as inline styles
+     newDiv.css({
+        'top': randomTop + '%',
+        'left': randomLeft + '%',
+        'z-index':randomIndex
+      });
+      // Append the new div to the container
+      $('body').prepend(newDiv);
+       }
+       setInterval(() => {
+         const div = $('.effect')
+         for (let i = 1; i <= 20; i++) {
+      const x = Math.floor(Math.random() * 610) - 400 + 'px';
+      const y = Math.floor(Math.random() * 710) - 300 + 'px';
+   
+        $('.effect:nth-child(' + i + ')').css({
+          "transform": `translate(${x}, ${y})`
+        });
+        // console.log('nom')
+
+    }
+       }, 3000);
+    
+
+    //more main shit
+    
+    const data = JSON.parse('<%- data %>');
+
+      if (!data.permission) {
+      window.location.replace('http://maki:62650/oops');
+    }
+    
+    $("img:first").attr("src", `https://cdn.discordapp.com/icons/${data.guild.id}/${data.guild.icon}`)
+      .attr("alt", "Guild Icon")
+      .css({
+        'border-radius':'50%',
+        'scale':'0.85'
+      });
+    $("#name").text(data.guild.name);
+      $('#mainIcon').attr('href',`https://cdn.discordapp.com/icons/${data.guild.id}/${data.guild.icon}`);
+$("title").text(data.guild.name);
+      if(data.nickname !== null){
+        $('#nickname').attr('placeholder',`${data.nickname}`)
+      }
+    // console.log(guild);
+    let booton = false;
+     $('#nicknameForm').submit(function (event) {
+      event.preventDefault(); // Prevent the form from submitting normally
+if(!booton){
+booton = true;
+  
+  const newNickname = $('#nickname').val();
+if(!newNickname) return;
+  const btn = $("#btn");
+  const btnText = $("#btnText");
+  $.ajax({
+        type: 'POST',
+        url: `/bot/${data.guild.id}`,
+        data: { nickname: newNickname },
+        success: function (response) {
+          console.log('Nickname changed successfully!');
+           //submit button 
+        
+
+          btn.on("click", function () {
+            btnText.html("Done");
+            btn.addClass("active");
+          });
+        },
+        error: function (error) {
+           btnText.html("error");
+            btn.addClass("error");
+          console.error('Error occurred while changing nickname:', error);
+        }
+      });
+    }
+    });
+    
+    
+    //nav changes
+    
+    $('#magic').click(function(e){
+      e.preventDefault();
+       const url = `${window.location.href}/channel`;
+     if(url !== `http://localhost:62650/manage/${data.guild.id}/channel`) return
+       window.location.href = url;
+      })
+      //channel
+      const {guild:{channels}} = data
+      const txtC = channels;
+     
+      for(const nom of txtC){
+    // const mom = `<a href="#">${nom.name}<i class="uil uil-arrow-right"></i></a> `
+    let mom = ` <option class="channelId" value="${nom.id}">${nom.name}<i class="uil uil-arrow-right"></i></option>`
+    $('.section-dropdown').append(mom)
+  // console.log(nom.name);
+}
+// let id =''
+$('.channelId').click(function(){
+  //  id = $(this).val();
+  //  this.addClass('.clicked');
+   $('.for-dropdown').text(this.text)
+}
+)
+
+
+
+
+
+
+
+
+
+
+
+});
+      </script>
+      
+      
+</body>
+
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            *{
+                padding: 0;
+                margin:0;
+                box-sizing: border-box;
+            }
+            body{
+                background: url('https://w.wallhaven.cc/full/83/wallhaven-83dz2y.png') no-repeat fixed;
+                background-size: cover;
+              
+            }
+        div{
+            display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 50%;
+                margin: 5% auto;
+                height: 40%;
+                
+        }
+        a{
+            height: auto;
+            width: 10vw;
+           
+        }
+        img{
+            height: 100%;
+            width: 100%;
+            transform: scale(.5,.5);
+        }
+        img:hover{
+            animation: load .8s linear 2 alternate ;
+        }
+    imp:not(:hover){
+        transition-duration: .8s;
+    }
+@keyframes load {
+    0%{
+     transform: scale(.5,.5);
+     rotate: 0deg;
+    }
+    100%{
+        transform: scale(1,1);
+         rotate:1080deg;
+    }
+}
+        </style>
+    <title>maki's home page</title>
+</head>
+<body>
+<div>
+    <a id="login" href="https://discord.com/api/oauth2/authorize?client_id=1104635732657709076&redirect_uri=http%3A%2F%2Flocalhost%3A62650%2Fauth&response_type=code&scope=identify"><img src="https://cdn-icons-png.flaticon.com/256/5968/5968756.png" alt=""></a>
+</div>
+<script>
+  
+</script>
+</body>
+</html>
