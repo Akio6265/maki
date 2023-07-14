@@ -1,6 +1,6 @@
 const { Events } = require("discord.js");
 const { User } = require('../db')
-const { prefix } = require('../../config.json');
+const prefix = "?";
 
 const level = async function (user, requireExp, message) {
     if (user.xp < requireExp) return;
